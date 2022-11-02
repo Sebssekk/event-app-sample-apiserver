@@ -37,7 +37,7 @@ public class EventControllerTest {
                         .author("Ben")
                         .title("Error in server room")
                         .place("Server Room")
-                        .description("An error occurred in server room and everython g is burning now. I'm super scared about it, need help!")
+                        .description("An error occurred in server room and everything is burning now. I'm super scared about it, need help!")
                         .dateTime(LocalDateTime.of(2022,12,2,12,23))
                         .severity(Severity.ALARM)
                         .build(),
@@ -63,13 +63,13 @@ public class EventControllerTest {
                         .status()
                         .isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1l));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L));
 
     }
 
     @Test
     public void should_get_one_event() throws Exception {
-        Mockito.when(eventService.getEvent(1l)).thenReturn(mockEvs.get(0));
+        Mockito.when(eventService.getEvent(1L)).thenReturn(mockEvs.get(0));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/events/1")
@@ -77,13 +77,13 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1l))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("Ben"));
     }
 
     @Test
     public void should_not_find_one_event() throws Exception {
-        Mockito.when(eventService.getEvent(3l)).thenThrow(EventNotFoundException.class);
+        Mockito.when(eventService.getEvent(3L)).thenThrow(EventNotFoundException.class);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/events/3")
@@ -97,14 +97,15 @@ public class EventControllerTest {
     public void should_add_an_event() throws Exception {
         Mockito.when(eventService.addEvent(Mockito.any(Event.class))).thenReturn(mockEvs.get(0));
 
-        String json = "{\n" +
-                "  \"title\": \"Error in server roo\",\n" +
-                "  \"description\": \"An error occurred in server room and everython g is burning now. I'm super scared about it, need help!\",\n" +
-                "  \"dateTime\": \"2022-12-02T12:23:00\",\n" +
-                "  \"place\": \"Server Room\",\n" +
-                "  \"severity\":{\"value\":\"ALARM\"},\n" +
-                "  \"author\": \"Ben\"\n" +
-                "}";
+        String json = """
+                {
+                  "title": "Error in server roo",
+                  "description": "An error occurred in server room and everython g is burning now. I'm super scared about it, need help!",
+                  "dateTime": "2022-12-02T12:23:00",
+                  "place": "Server Room",
+                  "severity":{"value":"ALARM"},
+                  "author": "Ben"
+                }""";
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/events/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -112,30 +113,29 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1l));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L));
     }
     @Test
     public void should_add_all_events() throws Exception {
         Mockito.when(eventService.addEvents(Mockito.anyList())).thenReturn(mockEvs);
 
-        String json = "[" +
-                "{\n" +
-                "  \"title\": \"Error in server room\",\n" +
-                "  \"description\": \"An error occurred in server room and everython g is burning now. I'm super scared about it, need help!\",\n" +
-                "  \"dateTime\": \"2022-12-02T12:23:00\",\n" +
-                "  \"place\": \"Server Room\",\n" +
-                "  \"severity\": {\"value\":\"ALARM\"},\n" +
-                "  \"author\": \"Ben\"\n" +
-                "},\n" +
-                "{\n" +
-                "  \"title\": \"Clean completed\",\n" +
-                "  \"description\": \"Cleaning operation was successfully completed at second floor, now moving at 3rd\",\n" +
-                "  \"dateTime\": \"2022-10-01T09:17:00\",\n" +
-                "  \"place\": \"2nd floor\",\n" +
-                "  \"severity\": {\"value\": \"SUCCESS\"},\n" +
-                "  \"author\": \"John\"\n" +
-                "}" +
-                "]";
+        String json = """
+                [{
+                  "title": "Error in server room",
+                  "description": "An error occurred in server room and everython g is burning now. I'm super scared about it, need help!",
+                  "dateTime": "2022-12-02T12:23:00",
+                  "place": "Server Room",
+                  "severity": {"value":"ALARM"},
+                  "author": "Ben"
+                },
+                {
+                  "title": "Clean completed",
+                  "description": "Cleaning operation was successfully completed at second floor, now moving at 3rd",
+                  "dateTime": "2022-10-01T09:17:00",
+                  "place": "2nd floor",
+                  "severity": {"value": "SUCCESS"},
+                  "author": "John"
+                }]""";
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/events/batchadd")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -148,7 +148,7 @@ public class EventControllerTest {
 
     @Test
     public void should_delete_event() throws Exception {
-        Mockito.when(eventService.deleteEvent(1l)).thenReturn(mockEvs.get(0));
+        Mockito.when(eventService.deleteEvent(1L)).thenReturn(mockEvs.get(0));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/events/1")
@@ -156,12 +156,12 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1l))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("Ben"));
     }
     @Test
     public void should_not_delete_event_that_does_not_exist() throws Exception {
-        Mockito.when(eventService.deleteEvent(3l)).thenThrow(EventNotFoundException.class);
+        Mockito.when(eventService.deleteEvent(3L)).thenThrow(EventNotFoundException.class);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/events/3")
@@ -183,16 +183,17 @@ public class EventControllerTest {
                 .severity(Severity.ALARM)
                 .build();
 
-        Mockito.when(eventService.updateEvent(Mockito.eq(1l),Mockito.any(Event.class))).thenReturn(updatedEvent);
+        Mockito.when(eventService.updateEvent(Mockito.eq(1L),Mockito.any(Event.class))).thenReturn(updatedEvent);
 
-        String json = "{\n" +
-                "  \"title\": \"Error in server room Again\",\n" +
-                "  \"description\": \"An error occurred in server room and everything is burning now. I'm super scared about it, need help!\",\n" +
-                "  \"dateTime\": \"2022-12-02T15:23:00\",\n" +
-                "  \"place\": \"Server Room\",\n" +
-                "  \"severity\":{\"value\":\"ALARM\"},\n" +
-                "  \"author\": \"Susan\"\n" +
-                "}";
+        String json = """
+                {
+                  "title": "Error in server room Again",
+                  "description": "An error occurred in server room and everything is burning now. I'm super scared about it, need help!",
+                  "dateTime": "2022-12-02T15:23:00",
+                  "place": "Server Room",
+                  "severity":{"value":"ALARM"},
+                  "author": "Susan"
+                }""";
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/events/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -200,20 +201,21 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers
                         .status()
                         .isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1l));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L));
     }
     @Test
     public void should_not_find_event_to_update() throws Exception {
-        Mockito.when(eventService.updateEvent(Mockito.eq(3l),Mockito.any(Event.class))).thenThrow(EventNotFoundException.class);
+        Mockito.when(eventService.updateEvent(Mockito.eq(3L),Mockito.any(Event.class))).thenThrow(EventNotFoundException.class);
 
-        String json = "{\n" +
-                "  \"title\": \"Error in server room Again\",\n" +
-                "  \"description\": \"An error occurred in server room and everything is burning now. I'm super scared about it, need help!\",\n" +
-                "  \"dateTime\": \"2022-12-02T15:23:00\",\n" +
-                "  \"place\": \"Server Room\",\n" +
-                "  \"severity\":{\"value\":\"ALARM\"},\n" +
-                "  \"author\": \"Susan\"\n" +
-                "}";
+        String json = """
+                {
+                  "title": "Error in server room Again",
+                  "description": "An error occurred in server room and everything is burning now. I'm super scared about it, need help!",
+                  "dateTime": "2022-12-02T15:23:00",
+                  "place": "Server Room",
+                  "severity":{"value":"ALARM"},
+                  "author": "Susan"
+                }""";
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/events/3")

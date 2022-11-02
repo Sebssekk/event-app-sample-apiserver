@@ -10,7 +10,7 @@ import java.util.Optional;
 public class MockEventRepo implements EventRepository{
     private long id_Sequence;
     @Autowired
-    private List<Event> dbEvents;
+    private final List<Event> dbEvents;
 
     public MockEventRepo(List<Event> events) {
         this.id_Sequence = (long) events.size()+1;
@@ -24,7 +24,7 @@ public class MockEventRepo implements EventRepository{
 
     @Override
     public Optional<Event> findById(Long id) {
-        return  dbEvents.stream().filter(ev -> ev.getId() == id).findFirst();
+        return  dbEvents.stream().filter(ev -> ev.getId().equals(id)).findFirst();
 
     }
 

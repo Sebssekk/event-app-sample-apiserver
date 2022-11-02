@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /*
 NOTE. Validations and any other DB details
-like columns, will not work untill a DB will be
+like columns, will not work until a DB will be
 connected !! - Can not use them with mock DB
 */
 
@@ -57,13 +57,4 @@ public class Event {
     private Severity severity;
     @NotBlank
     private String author;
-
-    /*public Event(String title, String description, LocalDateTime dateTime, String place, Severity severity, String author) {
-        this.title = title;
-        this.description = description;
-        this.dateTime = dateTime;
-        this.place = place;
-        this.severity = severity;
-        this.author = author;
-    }*/
 }

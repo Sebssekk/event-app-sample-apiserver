@@ -25,7 +25,7 @@ public class ApiServerApplication {
 						.author("Ben")
 						.title("Error in server room")
 						.place("Server Room")
-						.description("An error occurred in server room and everython g is burning now. I'm super scared about it, need help!")
+						.description("An error occurred in server room and everything is burning now. I'm super scared about it, need help!")
 						.dateTime(LocalDateTime.of(2022,12,2,12,23))
 						.severity(Severity.ALARM)
 						.build(),
@@ -44,7 +44,7 @@ public class ApiServerApplication {
 						.title("Migration completed")
 						.place("Datacenter 3")
 						.description("Vm migration was successfully completed from datacenter 3 to datacenter 4")
-						.dateTime(LocalDateTime.of(2022,2,5,18,05))
+						.dateTime(LocalDateTime.of(2022,2,5,18, 5))
 						.severity(Severity.SUCCESS)
 						.build(),
 				Event.builder()
@@ -62,7 +62,7 @@ public class ApiServerApplication {
 						.title("Running out of Storage resources")
 						.place("Datacenter 1")
 						.description("We are running out of resources in datacenter 1, we should consider to buy more storage resources")
-						.dateTime(LocalDateTime.of(2022,8,10,19,01))
+						.dateTime(LocalDateTime.of(2022,8,10,19, 1))
 						.severity(Severity.WARNING)
 						.build()
 		));

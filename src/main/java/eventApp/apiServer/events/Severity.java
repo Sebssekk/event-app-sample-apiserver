@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public enum Severity {
     INFO("INFO"), WARNING("WARNING"), ALARM("ALARM"), SUCCESS("SUCCESS");
 
-    private String value;
+    private final String value;
 
     Severity(String value){
         this.value=value;
