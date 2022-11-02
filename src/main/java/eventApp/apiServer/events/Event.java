@@ -1,18 +1,20 @@
 package eventApp.apiServer.events;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
+
+/*
+NOTE. Validations and any other DB details
+like columns, will not work untill a DB will be
+connected !! - Can not use them with mock DB
+*/
 
 @Data
 @AllArgsConstructor
@@ -20,6 +22,16 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table
+@AttributeOverrides({
+        @AttributeOverride(
+                name = "id",
+                column = @Column(updatable = false)
+        ),
+        @AttributeOverride(
+                name = "description",
+                column = @Column(columnDefinition = "TEXT")
+        )
+})
 public class Event {
     @SequenceGenerator(
             name="event_sequence",
@@ -33,21 +45,25 @@ public class Event {
     @Id
     private Long id;
     @NotNull
+    @NotBlank
     private String title;
     private String description;
     @NotNull
+    @PastOrPresent
     private LocalDateTime dateTime;
+    @NotBlank
     private String place;
     @NotNull
     private Severity severity;
+    @NotBlank
     private String author;
 
-    public Event(String title, String description, LocalDateTime dateTime, String place, Severity severity, String author) {
+    /*public Event(String title, String description, LocalDateTime dateTime, String place, Severity severity, String author) {
         this.title = title;
         this.description = description;
         this.dateTime = dateTime;
         this.place = place;
         this.severity = severity;
         this.author = author;
-    }
+    }*/
 }
