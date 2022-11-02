@@ -9,8 +9,8 @@ import java.util.Optional;
 @Repository
 public interface EventRepository {
     public List<Event> findAll();
-    public Optional<Event> getEventById(Long id) throws EventNotFoundException;
+    public Optional<Event> findById(Long id) throws EventNotFoundException;
     public Event save(Event event);
     public List<Event> saveAll(List<Event> events);
-    public Optional<Event> deleteEventById(Long id) throws EventNotFoundException;
+    public void delete( Event event) throws EventNotFoundException;
 }

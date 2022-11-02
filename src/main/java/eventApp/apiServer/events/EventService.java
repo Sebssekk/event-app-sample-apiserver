@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,7 +17,7 @@ public class EventService {
         return eventRepository.findAll();
     }
     public Event getEvent(Long id) throws EventNotFoundException {
-        return eventRepository.getEventById(id).orElseThrow(()->new EventNotFoundException());
+        return eventRepository.findById(id).orElseThrow(()->new EventNotFoundException());
     }
 
     public Event addEvent(Event ev){
@@ -26,7 +27,27 @@ public class EventService {
         return eventRepository.saveAll(evs);
     }
     public Event deleteEvent(Long id) throws EventNotFoundException {
-        return eventRepository.deleteEventById(id).orElseThrow(() -> new EventNotFoundException());
+        Event ev = eventRepository.findById(id).orElseThrow( () -> new EventNotFoundException());
+        eventRepository.delete(ev);
+        return ev;
+    }
+    //@Transactional // Only with real DB
+    public Event updateEvent(Long id, Event ev) throws EventNotFoundException {
+        Event oldEv = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException());
+        oldEv.setPlace(ev.getPlace());
+        oldEv.setAuthor(ev.getAuthor());
+        oldEv.setSeverity(ev.getSeverity());
+        oldEv.setTitle(ev.getTitle() != "" ? ev.getTitle() : oldEv.getTitle());
+        oldEv.setDescription(ev.getDescription());
+        oldEv.setDateTime(ev.getDateTime());
+
+        // - Only for mock DB, DELETE with real DB
+        Event oldOldEv = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException());
+        eventRepository.delete(oldOldEv);
+        oldOldEv.setId(id);
+        eventRepository.save(oldEv);
+
+        return oldEv;
     }
 
 

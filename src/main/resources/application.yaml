@@ -2,3 +2,24 @@ server:
   port: 8082
   error:
     include-message: always
+
+
+
+
+# Disable Spring JPA DB interaction in order to be able to run without a DB
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none
+
+#Database Configuration (It's mandatory even if we're not using it now)
+  datasource:
+    url: jdbc:mariadb://localhost:3306/db_name
+    username: root
+    password: ""
+    driver-class-name: org.mariadb.jdbc.Driver

@@ -1,46 +1,57 @@
 package eventApp.apiServer.events;
 
-import eventApp.apiServer.events.errors.EventNotFoundException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-@AllArgsConstructor
 public class MockEventRepo implements EventRepository{
+    private long id_Sequence;
     @Autowired
-    private List<Event> events;
-    @Override
-    public List<Event> findAll() {
-        return events;
+    private List<Event> dbEvents;
+
+    public MockEventRepo(List<Event> events) {
+        this.id_Sequence = (long) events.size()+1;
+        this.dbEvents = events;
     }
 
     @Override
-    public Optional<Event> getEventById(Long id) {
-        return  events.stream().filter(ev -> ev.getId() == id).findFirst();
+    public List<Event> findAll() {
+        return dbEvents;
+    }
+
+    @Override
+    public Optional<Event> findById(Long id) {
+        return  dbEvents.stream().filter(ev -> ev.getId() == id).findFirst();
 
     }
 
     @Override
     public Event save(Event event) {
-        events.add(event);
+        if (event.getId() == null) {
+            event.setId(id_Sequence);
+            id_Sequence++;
+        }
+        dbEvents.add(event);
         return event;
     }
 
     @Override
     public List<Event> saveAll(List<Event> events) {
-        events.addAll(events);
+        for (Event ev : events){
+            if (ev.getId() == null) {
+                ev.setId(id_Sequence);
+                id_Sequence++;
+            }
+        }
+        dbEvents.addAll(events);
         return events;
     }
 
     @Override
-    public Optional<Event> deleteEventById(Long id) {
-        Optional<Event> event = this.getEventById(id);
-        events.remove(event.get());
-        return event;
+    public void  delete(Event event) {
+        dbEvents.remove(event);
     }
 }
