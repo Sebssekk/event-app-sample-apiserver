@@ -21,7 +21,16 @@
               "timeout": 5,
               "interval": 30,
               "startPeriod": 30
-          }
+          },
+          "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "awslogs-apiserver",
+                    "awslogs-region": "eu-west-3",
+                    "awslogs-stream-prefix": "awslogs-demo-ecs"
+                }
+            }
         }
     ],
     "requiresCompatibilities": [
