@@ -10,6 +10,9 @@ RUN mvn clean package
 
 FROM amazoncorretto:19-alpine-jdk
 
+# For health check 
+RUN apk --no-cache add curl 
+
 WORKDIR /app
 
 COPY --from=build /app/target/apiServer-0.0.1-SNAPSHOT.jar ./app.jar
