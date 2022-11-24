@@ -11,7 +11,17 @@
                     "protocol": "tcp",
                     "containerPort": 8082
                 }
-            ]
+            ],
+            "healthCheck": {
+              "retries": 3,
+              "command": [
+                  "CMD-SHELL",
+                  "curl -f http://localhost:8082/ || exit 1"
+              ],
+              "timeout": 5,
+              "interval": 30,
+              "startPeriod": 30
+          }
         }
     ],
     "requiresCompatibilities": [
