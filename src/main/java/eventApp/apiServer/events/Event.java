@@ -50,10 +50,12 @@ public class Event {
     private String description;
     @NotNull
     @PastOrPresent
+    @NotBlank
     private LocalDateTime dateTime;
     @NotBlank
     private String place;
     @NotNull
+    @NotBlank
     private Severity severity;
     @NotBlank
     private String author;
