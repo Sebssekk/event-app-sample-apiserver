@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+appspec.yaml
+buildspec.yml
+taskdef.json

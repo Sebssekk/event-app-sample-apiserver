@@ -3,9 +3,6 @@ server:
   error:
     include-message: always
 
-
-
-
 # Disable Spring JPA DB interaction in order to be able to run without a DB
 spring:
   jpa:
@@ -17,9 +14,21 @@ spring:
     hibernate:
       ddl-auto: none
 
-#Database Configuration (It's mandatory even if we're not using it now)
+  #Database Configuration (It's mandatory even if we're not using it now)
   datasource:
     url: jdbc:mariadb://localhost:3306/db_name
     username: root
     password: ""
     driver-class-name: org.mariadb.jdbc.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
