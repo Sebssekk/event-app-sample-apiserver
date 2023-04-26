@@ -36,3 +36,6 @@ build/
 appspec.yaml
 buildspec.yml
 taskdef.json
+
+#Archive
+*.zip

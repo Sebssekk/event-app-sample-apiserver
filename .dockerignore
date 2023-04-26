@@ -42,3 +42,5 @@ Dockerfile
 .dockerfile
 *.md
 
+#Archive
+*.zip
