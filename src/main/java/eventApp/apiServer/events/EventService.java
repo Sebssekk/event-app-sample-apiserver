@@ -31,7 +31,7 @@ public class EventService {
         eventRepository.delete(ev);
         return ev;
     }
-    //@Transactional // Only with real DB
+    @Transactional // Only with real DB
     public Event updateEvent(Long id, Event ev) throws EventNotFoundException {
         Event oldEv = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
         oldEv.setPlace(ev.getPlace());
@@ -40,13 +40,6 @@ public class EventService {
         oldEv.setTitle(ev.getTitle());
         oldEv.setDescription(ev.getDescription());
         oldEv.setDateTime(ev.getDateTime());
-
-        // - Only for mock DB, DELETE with real DB
-        Event oldOldEv = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
-        eventRepository.delete(oldOldEv);
-        oldOldEv.setId(id);
-        eventRepository.save(oldEv);
-
         return oldEv;
     }
 

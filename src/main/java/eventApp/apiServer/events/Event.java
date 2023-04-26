@@ -35,7 +35,7 @@ connected !! - Can not use them with mock DB
 public class Event {
     @SequenceGenerator(
             name="event_sequence",
-            sequenceName = "event_sequence",
+            sequenceName = "EVENT_SEQUENCE",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -50,12 +50,10 @@ public class Event {
     private String description;
     @NotNull
     @PastOrPresent
-    @NotBlank
     private LocalDateTime dateTime;
     @NotBlank
     private String place;
     @NotNull
-    @NotBlank
     private Severity severity;
     @NotBlank
     private String author;

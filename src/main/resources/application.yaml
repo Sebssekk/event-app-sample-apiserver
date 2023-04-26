@@ -3,22 +3,28 @@ server:
   error:
     include-message: always
 
+
 # Disable Spring JPA DB interaction in order to be able to run without a DB
+
 spring:
   jpa:
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
-        temp:
-          use_jdbc_metadata_defaults: false
+        format_sql: true
+#        temp:
+#          use_jdbc_metadata_defaults: false
     hibernate:
-      ddl-auto: none
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create-drop
 
   #Database Configuration (It's mandatory even if we're not using it now)
   datasource:
-    url: jdbc:mariadb://localhost:3306/db_name
-    username: root
-    password: ""
+    url: jdbc:mariadb://localhost:3306/demo_db
+    username: user
+    password: user-psw
     driver-class-name: org.mariadb.jdbc.Driver
 
 management:
