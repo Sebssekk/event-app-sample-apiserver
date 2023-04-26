@@ -32,7 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 
+### AWS 
+appspec.yaml
+buildspec.yml
+taskdef.json
+
 Dockerfile
 .gitignore
 .dockerfile
 *.md
+

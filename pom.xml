@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>eventApp</groupId>
 	<artifactId>apiServer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>apiServer</name>
 	<description>Api server for a simple event app</description>
 	<properties>
