@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  labels:
+    app: backend
+spec:
+  replicas: $REPLICAS
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: api-server
+          image: $IMAGE
+          ports:
+            - containerPort: $PORT
+
+  ---
+
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: mariadb
+    labels:
+      app: db
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: db
+    template:
+      metadata:
+        labels:
+          app: db
+      spec:
+        containers:
+          - name: mariadb
+            image: mariadb
+            env:
+              - name: MARIADB_ROOT_PASSWORD
+                value: toor
+              - name: MARIADB_USER
+                value: user
+              - name: MARIADB_PASSWORD
+                value: user-psw
+              - name: MARIADB_DATABASE
+                value: demo_db
+
+            ports:
+              - containerPort: 3306
