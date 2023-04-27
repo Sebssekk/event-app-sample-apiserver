@@ -51,7 +51,7 @@ jobs:
   deploy-to-cloudshell-minikube:
     name: Deploy to minikube
     needs: login_then_push_dockerhub
-    runs-on: [cloudshell]
+    runs-on: [self-hosted, Linux, X64, cloudshell ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
