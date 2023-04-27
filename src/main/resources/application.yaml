@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: ${PORT:-8082}
   error:
     include-message: always
 
@@ -22,9 +22,9 @@ spring:
 
   #Database Configuration (It's mandatory even if we're not using it now)
   datasource:
-    url: jdbc:mariadb://localhost:3306/demo_db
-    username: user
-    password: user-psw
+    url: jdbc:mariadb://${DB_HOST:-localhost}:${DB_PORT:3306}/${DB_NAME:-demo_db}
+    username: ${DB_USER:-user}
+    password: ${DB_PASSWORD:-user-psw}
     driver-class-name: org.mariadb.jdbc.Driver
 
 management:
